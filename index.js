@@ -278,6 +278,8 @@ document.querySelectorAll("[data-goto]").forEach(function (b) {
 })
 
 addEventListener("keydown", function (e) {
+    const el = document.activeElement
+    if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return
     const ids = ["p1", "p2", "p3"]
     const now = ids.findIndex(function (id) { return document.getElementById(id).classList.contains("active") })
     if (e.key === "ArrowRight" && now < 2) go(ids[now + 1])
@@ -351,76 +353,78 @@ function kaishi() {
 const ZHOU = ["周一", "周二", "周三", "周四", "周五"]
 
 function huidawenti(w) {
-    if (w.indexOf("几门") >= 0 || w.indexOf("多少门") >= 0 || w.indexOf("几节") >= 0) {
-        huida.textContent = `我一共安排了 ${kecheng.length} 门课。`
-        return
-    }
+    const jieM = w.match(/第([1-6])节/)
+    const jie = jieM ? Number(jieM[1]) : null
 
     let zhou = -1
     for (let i = 0; i < ZHOU.length; i++) {
         if (w.indexOf(ZHOU[i]) >= 0) { zhou = i; break }
     }
 
-    const jie = w.match(/第([1-6])节/)
-    if (zhou >= 0 && jie) {
-        const n = Number(jie[1])
-        const k = kecheng.find(function (x) { return x.xingqi === zhou + 1 && x.jieci === n })
-        huida.textContent = k
-            ? `${ZHOU[zhou]}第${n}节：${k.mingzi}，${k.laoshi}老师，在 ${k.jiaoshi}。`
-            : `${ZHOU[zhou]}第${n}节没有课。`
-        return
-    }
+    // 问句里提到的课程名（去重）
+    const names = []
+    kecheng.forEach(function (k) {
+        if (w.indexOf(k.mingzi) >= 0 && names.indexOf(k.mingzi) < 0) names.push(k.mingzi)
+    })
 
-    if (zhou >= 0) {
-        const list = kecheng.filter(function (x) { return x.xingqi === zhou + 1 })
-        if (!list.length) { huida.textContent = `${ZHOU[zhou]}没有课。`; return }
-        huida.textContent = `${ZHOU[zhou]}有 ${list.length} 门课：` + list.map(function (k) {
-            return `${k.mingzi}（第${k.jieci}节，${k.jiaoshi}）`
-        }).join("、")
-        return
-    }
-
-    const zhao = kecheng.filter(function (k) { return w.indexOf(k.mingzi) >= 0 })
-    if (zhao.length) {
-        huida.textContent = zhao.map(function (k) {
-            return `${k.mingzi}在 ${k.jiaoshi}，${ZHOU[k.xingqi - 1]}第${k.jieci}节，${k.laoshi}老师。`
+    // ① 课程名 + 问第几节 / 什么时候
+    if (names.length && /第几节|几节|什么时候|哪天|周几/.test(w)) {
+        const list = kecheng.filter(function (k) { return names.indexOf(k.mingzi) >= 0 })
+        huida.textContent = list.map(function (k) {
+            return k.mingzi + "：" + ZHOU[k.xingqi - 1] + "第" + k.jieci + "节，" + k.jiaoshi
         }).join("\n")
         return
     }
 
-    huida.textContent = "没听懂。可以问：周一有什么课 / 一共几门课 / 体育课在哪上。"
-}
-
-/* ---------- ⑨ 滚动生长的时间线 ---------- */
-
-;(function shijianxian() {
-    const box = document.getElementById("journey")
-    const fill = document.getElementById("jfill")
-    if (!box || !fill) return
-
-    const items = [].slice.call(box.querySelectorAll(".jitem"))
-
-    function calc() {
-        const r = box.getBoundingClientRect()
-        // 进度：从「盒子顶部进入视口 80%」到「盒子底部离开视口 30%」
-        const start = innerHeight * 0.82
-        const end = innerHeight * 0.3
-        const total = r.height + (start - end)
-        let p = (start - r.top) / total
-        p = Math.max(0, Math.min(1, p))
-
-        fill.style.height = (p * 100) + "%"
-
-        items.forEach(function (it) {
-            const at = Number(it.dataset.at) / 100
-            it.classList.toggle("on", p >= at)
-        })
+    // ② 只问总门数
+    if (/几门|多少门/.test(w)) {
+        const men = []
+        kecheng.forEach(function (k) { if (men.indexOf(k.mingzi) < 0) men.push(k.mingzi) })
+        huida.textContent = "一共 " + men.length + " 门课，排了 " + kecheng.length + " 节课。"
+        return
     }
 
-    addEventListener("scroll", calc, { passive: true })
-    addEventListener("resize", calc)
-    calc()
-})()
+    // ③ 周几 + 第几节
+    if (zhou >= 0 && jie) {
+        const k = kecheng.find(function (x) { return x.xingqi === zhou + 1 && x.jieci === jie })
+        huida.textContent = k
+            ? ZHOU[zhou] + "第" + jie + "节：" + k.mingzi + "，" + k.laoshi + "老师，在 " + k.jiaoshi + "。"
+            : ZHOU[zhou] + "第" + jie + "节没有课。"
+        return
+    }
+
+    // ④ 只问第几节
+    if (jie) {
+        const list = kecheng.filter(function (k) { return k.jieci === jie })
+        huida.textContent = list.length
+            ? "第" + jie + "节有 " + list.length + " 门课：" + list.map(function (k) {
+                return k.mingzi + "（" + ZHOU[k.xingqi - 1] + "，" + k.jiaoshi + "）"
+            }).join("、")
+            : "第" + jie + "节没有课。"
+        return
+    }
+
+    // ⑤ 只问周几
+    if (zhou >= 0) {
+        const list = kecheng.filter(function (k) { return k.xingqi === zhou + 1 })
+        if (!list.length) { huida.textContent = ZHOU[zhou] + "没有课。"; return }
+        huida.textContent = ZHOU[zhou] + "有 " + list.length + " 门课：" + list.map(function (k) {
+            return k.mingzi + "（第" + k.jieci + "节，" + k.jiaoshi + "）"
+        }).join("、")
+        return
+    }
+
+    // ⑥ 只提到课程名
+    if (names.length) {
+        const list = kecheng.filter(function (k) { return names.indexOf(k.mingzi) >= 0 })
+        huida.textContent = list.map(function (k) {
+            return k.mingzi + "在 " + k.jiaoshi + "，" + ZHOU[k.xingqi - 1] + "第" + k.jieci + "节。"
+        }).join("\n")
+        return
+    }
+
+    huida.textContent = "没听懂。可以问：周一有什么课 / 一共几门课 / 体育课第几节 / 第3节有什么课。"
+}
 
 /* ---------- 绑定 ---------- */
 
@@ -447,7 +451,8 @@ fasong.addEventListener("click", function () {
 })
 
 wenti.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") fasong.click()
+    if (e.isComposing || e.keyCode === 229) return
+    if (e.key === "Enter") { e.preventDefault(); fasong.click() }
 })
 
 document.querySelectorAll(".chip").forEach(function (c) {

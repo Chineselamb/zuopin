@@ -43,7 +43,7 @@
                     <p class="lede reveal">
                         这个页面本身，就是「把模型用出结果」的证明：<br>
                         方向、需求、验收由我定；实现由我和模型一起产出。
-                        两个月前，我没写过一行代码。
+                        两个月前，我还没独立做出过一个能上线的东西。
                     </p>
                     <div class="hero-meta reveal">
                         <span>移动互联 2604</span>
@@ -78,7 +78,7 @@
                 <div><b class="n" data-n="2">0</b><span>个月从零到上线</span></div>
                 <div><b class="n" data-n="6">0</b><span>个完整练习</span></div>
                 <div><b class="n" data-n="1">0</b><span>个线上作品</span></div>
-                <div><b class="n" data-n="0">0</b><span>个框架依赖</span></div>
+                <div><b class="n" data-n="0">0</b><span>个第三方库</span></div>
             </div>
         </section>
 
@@ -136,7 +136,7 @@
             <div class="prompt-grid">
                 <div class="prompt reveal">
                     <div class="prompt-label">有效的一条</div>
-                    <p>“数据在一个数组里。点空格子弹表单，确认后写进数组并存入 localStorage。要求：不刷新、提交后关闭表单、错误用提示条而不是 alert。”</p>
+                    <p>“数据在一个数组里。点空格子弹出表单，确认后写进数组并存入 localStorage。要求：不刷新、提交后关闭表单、错误用提示条而不是 alert。”</p>
                     <span class="prompt-why">数据在哪 · 交互是什么 · 不能做什么</span>
                 </div>
                 <div class="prompt reveal">
@@ -150,7 +150,7 @@
         <section class="sec">
             <p class="eyebrow reveal">PITFALLS</p>
             <h2 class="reveal">我踩过的五个坑</h2>
-            <p class="lead reveal">每一条都真发生过，每一条都改了不止一遍。</p>
+            <p class="lead reveal">每一条都改了不止一遍。</p>
 
             <div class="pits">
                 <div class="pit reveal">
@@ -209,7 +209,7 @@ dingdan[-1].gou = true          <span class="c-bad">// 崩在这里</span>
 <span class="c-dim">// 改法：只绑一次，绑在不会重建的父元素上</span>
 kapianzubox.addEventListener("click", ...)</pre>
                 <p class="case-text">
-                    <b>AI 会犯错。能找出它错在哪的人，才配用它。</b>
+                    <b>AI 会犯错。我的用处，就是能指出它错在哪。</b>
                 </p>
             </div>
         </section>
@@ -298,13 +298,13 @@ kapianzubox.addEventListener("click", ...)</pre>
 
         <section class="sec">
             <p class="eyebrow reveal">CODE</p>
-            <h2 class="reveal">这段代码，我改了三次</h2>
+            <h2 class="reveal">这段订单页代码，我改了三次</h2>
             <p class="lead reveal">事件委托的最终版。滚到这儿，它会自己打出来。</p>
 
             <div class="codewin reveal">
                 <div class="codewin-bar">
                     <span class="dots"><i></i><i></i><i></i></span>
-                    <span>kecheng / index.js</span>
+                    <span>dingdan / 待付款订单.js</span>
                     <span class="codewin-lang">JavaScript</span>
                 </div>
                 <pre class="typer"><code id="typerCode"></code></pre>
@@ -350,7 +350,7 @@ kapianzubox.addEventListener("click", ...)</pre>
             <p class="eyebrow reveal">02 — 03 / PROCESS</p>
             <h1 class="reveal" data-decode>怀疑不解决问题，但它指出问题在哪。</h1>
             <p class="lede reveal">
-                这条路我走过三次想放弃。写在这里，是因为我现在的水平装不出来。
+                这条路我走过三次想放弃。
             </p>
         </section>
 
@@ -397,14 +397,14 @@ kapianzubox.addEventListener("click", ...)</pre>
                     <div>
                         <h3>“我是不是学得太慢”</h3>
                         <p>两个月才做出一个课表，别人可能一周就做完了。我分不清自己是慢，还是只是在按自己的方式走。</p>
-                        <p class="fix">校准：不知道。但两个月前我连标签是什么都不知道，这是事实。</p>
+                        <p class="fix">校准：不知道。但两年前我连标签是什么都不知道。</p>
                     </div>
                 </div>
             </div>
 
             <div class="creed reveal">
                 <p>我来这里，最直接的原因是：<b>一个人摸索两个月，我分不清哪些是必经之路，哪些是我走了弯路。</b></p>
-                <p>我需要的不只是一个名额，是一个坐标。</p>
+                <p>我需要有人告诉我：哪一步是弯路，哪一步是必经的。</p>
             </div>
         </section>
 
@@ -414,7 +414,7 @@ kapianzubox.addEventListener("click", ...)</pre>
             <div class="plan">
                 <div class="plan-row reveal"><b>接入大模型接口</b><span>把规则版助手换成真正听懂话的模型。链路我已经想清楚：输入 → 请求 → 渲染回答。</span></div>
                 <div class="plan-row reveal"><b>让几个 AI 分工</b><span>一句话进来，拆成子任务，几个 AI 并行做完再汇总——一个人做不完的活。</span></div>
-                <div class="plan-row reveal"><b>把每个作品都放上线</b><span>每个都该是一个能点开的网址，不是硬盘里的文件夹。</span></div>
+                <div class="plan-row reveal"><b>让课表能换设备</b><span>加导出 / 导入，换台电脑、换台手机，数据都能带走。</span></div>
             </div>
         </section>
 
