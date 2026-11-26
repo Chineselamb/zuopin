@@ -280,9 +280,9 @@ document.querySelectorAll("[data-goto]").forEach(function (b) {
 addEventListener("keydown", function (e) {
     const el = document.activeElement
     if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return
-    const ids = ["p1", "p2", "p3"]
+    const ids = ["p0", "p1", "p2", "p3"]
     const now = ids.findIndex(function (id) { return document.getElementById(id).classList.contains("active") })
-    if (e.key === "ArrowRight" && now < 2) go(ids[now + 1])
+    if (e.key === "ArrowRight" && now < ids.length - 1) go(ids[now + 1])
     if (e.key === "ArrowLeft" && now > 0) go(ids[now - 1])
 })
 

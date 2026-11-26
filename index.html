@@ -23,7 +23,8 @@
         <div class="chrome-in">
             <span class="brand">ZY<em>/</em><span>PORTFOLIO 2026</span></span>
             <nav class="nav">
-                <button class="tab active" data-page="p1"><b>01</b>CAPABILITY</button>
+                <button class="tab active" data-page="p0"><b>00</b>SHOWCASE</button>
+                <button class="tab" data-page="p1"><b>01</b>CAPABILITY</button>
                 <button class="tab" data-page="p2"><b>02</b>WORK</button>
                 <button class="tab" data-page="p3"><b>03</b>PROCESS</button>
             </nav>
@@ -32,11 +33,64 @@
         <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
     </header>
 
+    <!-- ══════════ 00 SHOWCASE ══════════ -->
+    <main class="scene active" id="p0">
+        <section class="reel">
+            <p class="eyebrow reveal">00 / SHOWCASE</p>
+            <h1 class="reveal">这一页，<br>是模型做出来的。</h1>
+            <p class="lede reveal">
+                你要的不是一个会写代码的人，是一个能把模型的产出变成成品的人。
+                下面这一整页——粒子、光斑、3D 卡片、乱码解码、视差、磁性按钮——全部是原生代码，没有一个库。
+            </p>
+
+                            <div class="hero-stack" id="stack">
+                <article class="gcard" data-depth="0">
+                    <div class="gcard-top"><span>意图识别</span><i>01</i></div>
+                    <p class="gcard-big">听懂问题<br>再去找答案</p>
+                    <div class="gcard-foot"><span>RULE-BASED</span><span>＋</span></div>
+                </article>
+                <article class="gcard" data-depth="1">
+                    <div class="gcard-top"><span>数据检索</span><i>02</i></div>
+                    <p class="gcard-big">答案不在模型里<br>在数据里</p>
+                    <div class="gcard-foot"><span>FILTER / FIND</span><span>＋</span></div>
+                </article>
+                <article class="gcard" data-depth="2">
+                    <div class="gcard-top"><span>输出验收</span><i>03</i></div>
+                    <p class="gcard-big">它写得快<br>判断得由我来</p>
+                    <div class="gcard-foot"><span>REVIEW</span><span>＋</span></div>
+                </article>
+                <div class="stack-hint">移动光标 — 堆栈随之响应</div>
+            </div>
+
+            <div class="marquee reveal">
+                <div class="marquee-in">
+                    <span>CANVAS 粒子</span><span>·</span><span>3D 透视</span><span>·</span>
+                    <span>文字解码</span><span>·</span><span>滚动视差</span><span>·</span>
+                    <span>磁性按钮</span><span>·</span><span>卡片光斑</span><span>·</span>
+                    <span>交错入场</span><span>·</span><span>0 依赖</span><span>·</span>
+                    <span>CANVAS 粒子</span><span>·</span><span>3D 透视</span><span>·</span>
+                    <span>文字解码</span><span>·</span><span>滚动视差</span><span>·</span>
+                    <span>磁性按钮</span><span>·</span><span>卡片光斑</span><span>·</span>
+                    <span>交错入场</span><span>·</span><span>0 依赖</span><span>·</span>
+                </div>
+            </div>
+
+            <div class="reel-cta reveal">
+                <button class="btn main" data-goto="p1">那它到底能干什么 →</button>
+            </div>
+        </section>
+
+        <div class="pager">
+            <span></span>
+            <button class="pager-btn" data-goto="p1">NEXT — CAPABILITY →</button>
+        </div>
+    </main>
+
     <!-- ══════════ 01 CAPABILITY ══════════ -->
-    <main class="scene active" id="p1">
+    <main class="scene" id="p1">
 
         <section class="hero">
-            <div class="hero-grid">
+            <div class="hero-grid solo">
                 <div class="hero-copy">
                     <p class="eyebrow reveal">意图识别 · 数据检索 · 输出验收</p>
                     <h1 class="reveal" data-decode>AI 降低的是门槛，抬高的是判断。</h1>
@@ -52,24 +106,7 @@
                     </div>
                 </div>
 
-                <div class="hero-stack" id="stack">
-                    <article class="gcard" data-depth="0">
-                        <div class="gcard-top"><span>意图识别</span><i>01</i></div>
-                        <p class="gcard-big">听懂问题<br>再去找答案</p>
-                        <div class="gcard-foot"><span>RULE-BASED</span><span>＋</span></div>
-                    </article>
-                    <article class="gcard" data-depth="1">
-                        <div class="gcard-top"><span>数据检索</span><i>02</i></div>
-                        <p class="gcard-big">答案不在模型里<br>在数据里</p>
-                        <div class="gcard-foot"><span>FILTER / FIND</span><span>＋</span></div>
-                    </article>
-                    <article class="gcard" data-depth="2">
-                        <div class="gcard-top"><span>输出验收</span><i>03</i></div>
-                        <p class="gcard-big">它写得快<br>判断得由我来</p>
-                        <div class="gcard-foot"><span>REVIEW</span><span>＋</span></div>
-                    </article>
-                    <div class="stack-hint">移动光标 — 堆栈随之响应</div>
-                </div>
+
             </div>
         </section>
 
