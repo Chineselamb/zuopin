@@ -488,6 +488,48 @@ document.querySelectorAll(".chip").forEach(function (c) {
     ob2.observe(el)
 })()
 
+/* ---------- ⑪ 交互升级：卡片光斑 / 磁性按钮 / 光标状态 ---------- */
+
+;(function hujiao() {
+    // 卡片：光斑跟随鼠标
+    document.querySelectorAll(".work, .pit, .console, .case, .codewin, .col, .ver, .doubt").forEach(function (el) {
+        el.classList.add("spot")
+        el.addEventListener("mousemove", function (e) {
+            const r = el.getBoundingClientRect()
+            el.style.setProperty("--mx", (e.clientX - r.left) + "px")
+            el.style.setProperty("--my", (e.clientY - r.top) + "px")
+        })
+    })
+
+    // 按钮：磁性吸附
+    document.querySelectorAll(".btn, .pager-btn, .tab, .chip").forEach(function (b) {
+        b.classList.add("magnet")
+        b.addEventListener("mousemove", function (e) {
+            const r = b.getBoundingClientRect()
+            const x = (e.clientX - r.left - r.width / 2) / r.width
+            const y = (e.clientY - r.top - r.height / 2) / r.height
+            b.style.transform = "translate(" + (x * 8) + "px," + (y * 6 - 1) + "px)"
+        })
+        b.addEventListener("mouseleave", function () { b.style.transform = "" })
+    })
+
+    // 光标：悬停可点元素时放大
+    const dot = document.getElementById("cursorDot")
+    if (dot) {
+        document.querySelectorAll("a, button, .chip, .dian, .xk-cell.ke").forEach(function (el) {
+            el.addEventListener("mouseenter", function () { dot.classList.add("grow") })
+            el.addEventListener("mouseleave", function () { dot.classList.remove("grow") })
+        })
+    }
+})()
+
+/* 切页后重新为新区块绑定光斑 */
+document.addEventListener("scenechange", function () {
+    document.querySelectorAll(".spot:not([data-bound])").forEach(function (el) {
+        el.dataset.bound = "1"
+    })
+})
+
 /* ---------- 启动 ---------- */
 
 xuanranLunbo()
