@@ -801,6 +801,21 @@ document.addEventListener("scenechange", function () {
     if (!box) return
 
     const items = [].slice.call(box.querySelectorAll("[data-cine]"))
+    const meshEl = document.querySelector(".mesh")
+    const starEl = document.getElementById("xingxing")
+    function setTone(tone) {
+        if (!meshEl) return
+        if (tone === "dark") {
+            meshEl.style.filter = "grayscale(.8) brightness(.6) blur(30px)"
+            if (starEl) starEl.style.opacity = ".12"
+        } else if (tone === "vivid") {
+            meshEl.style.filter = "blur(30px) saturate(150%) brightness(1.12)"
+            if (starEl) starEl.style.opacity = ".6"
+        } else {
+            meshEl.style.filter = ""
+            if (starEl) starEl.style.opacity = ""
+        }
+    }
     let flash = document.querySelector(".award-flash")
     if (!flash) {
         flash = document.createElement("div")
@@ -859,19 +874,17 @@ document.addEventListener("scenechange", function () {
 
         const m = moodOf(current)
         if (m === "dark") {
-            document.body.classList.add("mood-dark")
-            document.body.classList.remove("mood-award")
+            setTone("dark")
         } else if (m === "award") {
             document.body.classList.remove("mood-dark")
             if (!document.body.classList.contains("mood-award")) {
-                document.body.classList.add("mood-award")
+                setTone("vivid")
                 flash.classList.remove("on")
                 void flash.offsetWidth
                 flash.classList.add("on")
             }
         } else {
-            document.body.classList.remove("mood-dark")
-            document.body.classList.remove("mood-award")
+            setTone("normal")
         }
     }
 
