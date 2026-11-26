@@ -794,6 +794,88 @@ document.addEventListener("scenechange", function () {
     addEventListener("resize", function () { if (!started) return; size() })
 })()
 
+/* ---------- ⑯ 故事的色调镜头 ---------- */
+
+;(function cineshot() {
+    const box = document.getElementById("storycine")
+    if (!box) return
+
+    const items = [].slice.call(box.querySelectorAll("[data-cine]"))
+    let flash = document.querySelector(".award-flash")
+    if (!flash) {
+        flash = document.createElement("div")
+        flash.className = "award-flash"
+        document.body.appendChild(flash)
+    }
+
+    // 打字：进入视口时，一段一段写出来
+    items.forEach(function (el) {
+        const full = el.textContent
+        el.textContent = ""
+        el.dataset.full = full
+        el.dataset.typed = "0"
+    })
+
+    function typeOne(el, speed) {
+        if (el.dataset.typed === "1") return
+        el.dataset.typed = "1"
+        const full = el.dataset.full
+        let i = 0
+        const caret = document.createElement("span")
+        caret.className = "cine-caret"
+        el.appendChild(caret)
+        const t = setInterval(function () {
+            i++
+            el.textContent = full.slice(0, i)
+            if (i >= full.length) {
+                clearInterval(t)
+                el.textContent = full
+            } else {
+                el.appendChild(caret)
+            }
+        }, speed)
+    }
+
+    function moodOf(el) { return el.dataset.cine }
+
+    function update() {
+        const mid = innerHeight * 0.55
+        let current = null
+        items.forEach(function (el) {
+            const r = el.getBoundingClientRect()
+            if (r.top < mid && r.bottom > 0 && !current) current = el
+            if (r.top < innerHeight * 0.88 && r.bottom > 0) {
+                const speed = (moodOf(el) === "after") ? 8 : 26
+                typeOne(el, speed)
+            }
+        })
+
+        if (!current) return
+        const m = moodOf(current)
+
+        if (m === "dark") {
+            document.body.classList.add("mood-dark")
+            document.body.classList.remove("mood-award")
+        } else if (m === "award") {
+            if (document.body.classList.contains("mood-dark")) {
+                document.body.classList.remove("mood-dark")
+                document.body.classList.add("mood-award")
+                flash.classList.remove("on")
+                void flash.offsetWidth
+                flash.classList.add("on")
+            }
+        } else if (m === "after") {
+            document.body.classList.remove("mood-dark")
+        } else {
+            document.body.classList.remove("mood-dark")
+        }
+    }
+
+    addEventListener("scroll", update, { passive: true })
+    document.addEventListener("scenechange", function () { setTimeout(update, 200) })
+    setTimeout(update, 500)
+})()
+
 /* ---------- 启动 ---------- */
 
 xuanranLunbo()

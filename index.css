@@ -1724,3 +1724,64 @@ h2 { text-wrap: balance; }
     pointer-events: none;
     z-index: 1;
 }
+
+
+/* ===== 故事的色调镜头 ===== */
+.story p,
+.story blockquote {
+    transition: color .8s ease, opacity .8s ease;
+}
+
+body.mood-dark .story p,
+body.mood-dark .story blockquote {
+    color: rgba(180, 186, 198, .55);
+}
+
+body.mood-dark .mesh {
+    filter: grayscale(.85) brightness(.55) blur(30px);
+}
+
+body.mood-dark #xingxing {
+    opacity: .12;
+}
+
+body.mood-dark .glow2 {
+    opacity: .12;
+}
+
+.mesh { transition: filter 1.4s ease; }
+#xingxing, .glow2 { transition: opacity 1.4s ease; }
+
+body.mood-award .mesh {
+    filter: blur(30px) saturate(150%) brightness(1.15);
+}
+
+/* 拿奖那一刻的一道暖光 */
+.award-flash {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    background: radial-gradient(circle at 50% 45%, rgba(255, 214, 150, .35), transparent 62%);
+    opacity: 0;
+}
+
+.award-flash.on {
+    animation: awardFlash 2.4s ease-out;
+}
+
+@keyframes awardFlash {
+    0% { opacity: 0; }
+    12% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.cine-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 2px;
+    background: var(--accent);
+    vertical-align: -2px;
+    animation: blink 1s steps(1) infinite;
+}
