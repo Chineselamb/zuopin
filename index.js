@@ -854,6 +854,7 @@ document.addEventListener("scenechange", function () {
             }
         })
 
+        window.__dbg = { n: items.length, best: best ? moodOf(best) : null, bestText: best ? best.textContent.slice(0,8) : null, ih: innerHeight, scrollY: Math.round(scrollY) }
         if (!best) return
         const m = moodOf(best)
 
