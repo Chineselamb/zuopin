@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>张欣阳 / Portfolio 2026</title>
+    <meta name="description" content="张欣阳 · 江西职业技术大学 · 用 AI 把想法做出来">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+    <!-- 背景层 -->
+    <div class="mesh"></div>
+    <div class="grain"></div>
+    <canvas id="xingxing"></canvas>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- 顶部仪表盘 -->
+    <header class="chrome">
+        <div class="chrome-in">
+            <span class="brand">ZY<em>/</em><span>PORTFOLIO 2026</span></span>
+            <nav class="nav">
+                <button class="tab active" data-page="p1"><b>01</b>CAPABILITY</button>
+                <button class="tab" data-page="p2"><b>02</b>WORK</button>
+                <button class="tab" data-page="p3"><b>03</b>PROCESS</button>
+            </nav>
+            <span class="live"><i></i>SYSTEM ONLINE</span>
+        </div>
+        <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    </header>
+
+    <!-- ══════════ 01 CAPABILITY ══════════ -->
+    <main class="scene active" id="p1">
+
+        <section class="hero">
+            <div class="hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow reveal">意图识别 · 数据检索 · 输出验收</p>
+                    <h1 class="reveal" data-decode>AI 降低的是门槛，抬高的是判断。</h1>
+                    <p class="lede reveal">
+                        两个月前我没写过一行代码。<br>
+                        现在我有一个人在用、能上线、能被追问细节的作品——
+                        而它是一次次与 AI 协作、一次次推翻重来的结果。
+                    </p>
+                    <div class="hero-meta reveal">
+                        <span>移动互联 2604</span>
+                        <span>江西职业技术大学</span>
+                        <span>2029 届</span>
+                    </div>
+                </div>
+
+                <div class="hero-stack" id="stack">
+                    <article class="gcard" data-depth="0">
+                        <div class="gcard-top"><span>意图识别</span><i>01</i></div>
+                        <p class="gcard-big">听懂问题<br>再去找答案</p>
+                        <div class="gcard-foot"><span>RULE-BASED</span><span>＋</span></div>
+                    </article>
+                    <article class="gcard" data-depth="1">
+                        <div class="gcard-top"><span>数据检索</span><i>02</i></div>
+                        <p class="gcard-big">答案不在模型里<br>在数据里</p>
+                        <div class="gcard-foot"><span>FILTER / FIND</span><span>＋</span></div>
+                    </article>
+                    <article class="gcard" data-depth="2">
+                        <div class="gcard-top"><span>输出验收</span><i>03</i></div>
+                        <p class="gcard-big">它写得快<br>判断得由我来</p>
+                        <div class="gcard-foot"><span>REVIEW</span><span>＋</span></div>
+                    </article>
+                    <div class="stack-hint">移动光标 — 堆栈随之响应</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="band reveal">
+            <div class="band-in">
+                <div><b class="n" data-n="2">0</b><span>个月从零到上线</span></div>
+                <div><b class="n" data-n="6">0</b><span>个完整练习</span></div>
+                <div><b class="n" data-n="1">0</b><span>个线上作品</span></div>
+                <div><b class="n" data-n="0">0</b><span>个框架依赖</span></div>
+            </div>
+        </section>
+
+        <section class="sec">
+            <p class="eyebrow reveal">LIVE DEMO</p>
+            <h2 class="reveal">课表助手 <em>规则版</em></h2>
+            <p class="lede reveal">
+                它听懂的只有四种问法：哪一天、第几节、哪门课、一共几门。
+                认出意图，再去数据里检索——这是所有大模型应用最底下的那一层。
+            </p>
+
+            <div class="console reveal">
+                <div class="console-top">
+                    <span>ASK / 输入问题</span>
+                    <span class="dots"><i></i><i></i><i></i></span>
+                </div>
+                <div class="console-in">
+                    <input id="wenti" type="text" placeholder="周一有什么课" autocomplete="off">
+                    <button id="fasong">ASK</button>
+                </div>
+                <div class="chips">
+                    <span class="chip">周一有什么课</span>
+                    <span class="chip">一共几门课</span>
+                    <span class="chip">周三第3节在哪上</span>
+                    <span class="chip">体育课在哪上</span>
+                </div>
+                <div class="huida" id="huida">等待输入 — 问我课表的事。</div>
+                <p class="console-note">
+                    它答得对，不是因为它聪明，是因为我把四种意图的判断写清楚了。
+                </p>
+            </div>
+        </section>
+
+        <section class="sec">
+            <p class="eyebrow reveal">METHOD</p>
+            <h2 class="reveal">三步，缺一不可</h2>
+            <div class="cols">
+                <div class="col reveal">
+                    <span class="col-n">01</span>
+                    <h3>需求即规格</h3>
+                    <p>说不清要什么，它就给你一个看起来对、其实不能用的东西。模糊是我的问题，不是它的。</p>
+                </div>
+                <div class="col reveal">
+                    <span class="col-n">02</span>
+                    <h3>生成即草稿</h3>
+                    <p>它几秒给出初版，这是它最强的地方。但草稿不是成品，中间隔着判断。</p>
+                </div>
+                <div class="col reveal">
+                    <span class="col-n">03</span>
+                    <h3>验收即能力</h3>
+                    <p>跑标准、看报错、定位根因。能让它把活干对的人，才真正用它。</p>
+                </div>
+            </div>
+
+            <div class="prompt-grid">
+                <div class="prompt reveal">
+                    <div class="prompt-label">有效的一条</div>
+                    <p>“数据在一个数组里。点空格子弹表单，确认后写进数组并存入 localStorage。要求：不刷新、提交后关闭表单、错误用提示条而不是 alert。”</p>
+                    <span class="prompt-why">数据在哪 · 交互是什么 · 不能做什么</span>
+                </div>
+                <div class="prompt reveal">
+                    <div class="prompt-label">无效的一条</div>
+                    <p>“帮我写个课程表。”</p>
+                    <span class="prompt-why">它给了我一个写死数据的静态表格——因为我自己也不知道要什么</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec">
+            <p class="eyebrow reveal">CASE / 我抓到它一个错</p>
+            <h2 class="reveal">页面看着没事，控制台在喊</h2>
+            <div class="case reveal">
+                <p class="case-text">
+                    AI 把点击监听器写进了渲染函数里。每渲染一次，就多一个监听器；
+                    旧的还在，只是它手里的行已经被删掉了。
+                </p>
+                <pre class="code"><span class="c-dim">// 控制台</span>
+Cannot set properties of undefined (setting 'gou')
+
+<span class="c-dim">// 根因：旧监听器拿到已删除的行，indexOf 返回 -1</span>
+const c = Array.from(document.querySelectorAll(".hang")).indexOf(hang)
+dingdan[-1].gou = true          <span class="c-bad">// 崩在这里</span>
+
+<span class="c-dim">// 改法：只绑一次，绑在不会重建的父元素上</span>
+kapianzubox.addEventListener("click", ...)</pre>
+                <p class="case-text">
+                    <b>AI 会犯错。能找出它错在哪的人，才配用它。</b>
+                </p>
+            </div>
+        </section>
+
+        <div class="pager">
+            <button class="pager-btn" data-goto="p2">NEXT — WORK →</button>
+        </div>
+    </main>
+
+    <!-- ══════════ 02 WORK ══════════ -->
+    <main class="scene" id="p2">
+
+        <section class="hero short">
+            <p class="eyebrow reveal">01 — 02 / WORK</p>
+            <h1 class="reveal" data-decode>能被使用，才叫作品。</h1>
+            <p class="lede reveal">
+                下面三个东西都能点。没有截图，没有 PPT，没有“演示到此为止”。
+            </p>
+        </section>
+
+        <section class="sec tight">
+            <div class="rail" id="rail">
+                <article class="work reveal">
+                    <div class="work-head"><span>01 / 主作品</span><i>LIVE</i></div>
+                    <h3>我的课程表</h3>
+                    <p>点空格子加课，点课程删除，数据存在浏览器里。桌面上是一张表，手机上自动重排。</p>
+                    <div class="mini-tel">
+                        <div class="mt-bar"><span></span><span></span><span></span></div>
+                        <div class="mt-body">
+                            <div class="mt-row"><i>周一</i><em>高数</em><em>英语</em><em>体育</em></div>
+                            <div class="mt-row"><i>周二</i><em>C语言</em><em>HTML5</em><em class="empty">＋</em></div>
+                            <div class="mt-row"><i>周三</i><em>高数</em><em>JavaScript</em><em class="empty">＋</em></div>
+                            <div class="mt-row"><i>周四</i><em>英语</em><em class="empty">＋</em><em>数据库</em></div>
+                            <div class="mt-row"><i>周五</i><em class="empty">＋</em><em>移动应用</em><em>就业指导</em></div>
+                        </div>
+                    </div>
+                    <a class="btn main" href="https://chineselamb.github.io/kecheng/" target="_blank"
+                        rel="noreferrer">打开线上作品 ↗</a>
+                </article>
+
+                <article class="work reveal">
+                    <div class="work-head"><span>02 / 组件</span><i>DEMO</i></div>
+                    <h3>轮播图</h3>
+                    <p>3 秒自动播放，手动切换后重新计时。最后一张往后回到第一张。</p>
+                    <div class="lunbo">
+                        <div class="track"></div>
+                        <div class="zuo">‹</div>
+                        <div class="you">›</div>
+                        <div class="diandian"></div>
+                    </div>
+                </article>
+
+                <article class="work reveal">
+                    <div class="work-head"><span>03 / 组件</span><i>DEMO</i></div>
+                    <h3>课程表渲染</h3>
+                    <p>数据驱动：数组变了，表格跟着变。点一门课试试。</p>
+                    <div class="xiaokebiao">
+                        <div class="xk-head"><span></span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span></div>
+                        <div class="xk-body"></div>
+                    </div>
+                </article>
+            </div>
+            <p class="rail-hint">← 横向滚动查看更多 →</p>
+        </section>
+
+        <section class="sec">
+            <p class="eyebrow reveal">PROCESS</p>
+            <h2 class="reveal">一个课表，三个版本</h2>
+            <div class="versions">
+                <div class="ver reveal">
+                    <span class="ver-n">V1</span>
+                    <h3>把监听器绑在每一行</h3>
+                    <p>行一删就失效，新生成的行没有任何反应。当时以为是浏览器的错。</p>
+                </div>
+                <div class="ver reveal">
+                    <span class="ver-n">V2</span>
+                    <h3>搬进渲染函数</h3>
+                    <p>能用了，但每渲染一次就多一个监听器，控制台越点报错越多。</p>
+                </div>
+                <div class="ver reveal">
+                    <span class="ver-n">V3</span>
+                    <h3>绑在不会死的父元素上</h3>
+                    <p>一个监听器管所有行，无论重建多少次。这才是事件委托。</p>
+                </div>
+            </div>
+            <p class="lede reveal" style="margin-top:18px">
+                手机上还崩过一次：六列挤进 343 像素，字被压成一条。<br>
+                后来改成卡片单列、每行自己重排——这些过程比结果更能说明问题。
+            </p>
+        </section>
+
+        <div class="pager">
+            <button class="pager-btn ghost" data-goto="p1">← BACK</button>
+            <button class="pager-btn" data-goto="p3">NEXT — PROCESS →</button>
+        </div>
+    </main>
+
+    <!-- ══════════ 03 PROCESS ══════════ -->
+    <main class="scene" id="p3">
+
+        <section class="hero short">
+            <p class="eyebrow reveal">02 — 03 / PROCESS</p>
+            <h1 class="reveal" data-decode>怀疑不解决问题，但它指出问题在哪。</h1>
+            <p class="lede reveal">
+                这条路我走过三次想放弃。写在这里，是因为我现在的水平靠装装不出来。
+            </p>
+        </section>
+
+        <section class="sec tight">
+            <div class="doubt-list">
+                <div class="doubt reveal">
+                    <span class="doubt-n">01</span>
+                    <div>
+                        <h3>“这些练习到底有没有用”</h3>
+                        <p>连着几周做同一类页面，每天写的东西长得差不多，我开始觉得在原地打转。</p>
+                        <p class="fix">校准：把同一个东西写三遍之后，手会记住。不知道够不够用，但我知道停下来的话一定不够。</p>
+                    </div>
+                </div>
+                <div class="doubt reveal">
+                    <span class="doubt-n">02</span>
+                    <div>
+                        <h3>“AI 几秒钟就能做完，我学它干嘛”</h3>
+                        <p>我让 AI 写了一遍我苦思半天的功能，几秒钟。那种感觉很糟——我花的时间还有什么意义。</p>
+                        <p class="fix">校准：后来它写错了一个地方，是我第一个看出来的。它替我打字，判断还得我来。</p>
+                    </div>
+                </div>
+                <div class="doubt reveal">
+                    <span class="doubt-n">03</span>
+                    <div>
+                        <h3>“我是不是学得太慢”</h3>
+                        <p>两个月才做出一个课表，别人可能一周就做完了。我分不清自己是慢，还是只是在按自己的方式走。</p>
+                        <p class="fix">校准：不知道。但两个月前我连标签是什么都不知道，这是事实。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="creed reveal">
+                <p>我来这里，最直接的原因是：<b>一个人摸索两个月，我分不清哪些是必经之路，哪些是我走了弯路。</b></p>
+                <p>我需要的不只是一个名额，是一个坐标。</p>
+            </div>
+        </section>
+
+        <section class="sec">
+            <p class="eyebrow reveal">NEXT 90 DAYS</p>
+            <h2 class="reveal">接下来想学的</h2>
+            <div class="plan">
+                <div class="plan-row reveal"><b>接入大模型接口</b><span>把规则版助手换成真正听懂话的模型。链路我已经想清楚：输入 → 请求 → 渲染回答。</span></div>
+                <div class="plan-row reveal"><b>让几个 AI 分工</b><span>一句话进来，拆成子任务，几个 AI 并行做完再汇总——一个人做不完的活。</span></div>
+                <div class="plan-row reveal"><b>把每个作品都放上线</b><span>每个都该是一个能点开的网址，不是硬盘里的文件夹。</span></div>
+            </div>
+        </section>
+
+        <footer class="foot">
+            <p class="eyebrow">SCAN / 扫码打开</p>
+            <img class="erweima" src="erweima.png" alt="扫码打开本页">
+            <p class="foot-link">chineselamb.github.io/zuopin/</p>
+            <p class="foot-mine">张欣阳 · 江西职业技术大学 · 移动互联 2604</p>
+        </footer>
+
+        <div class="pager">
+            <button class="pager-btn ghost" data-goto="p2">← BACK</button>
+        </div>
+    </main>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
