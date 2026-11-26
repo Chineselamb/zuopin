@@ -839,35 +839,38 @@ document.addEventListener("scenechange", function () {
     function moodOf(el) { return el.dataset.cine }
 
     function update() {
-        const mid = innerHeight * 0.55
-        let current = null
+        // 找出离视口中线最近的那一段
+        let best = null, bestDist = 1e9
         items.forEach(function (el) {
             const r = el.getBoundingClientRect()
-            if (r.top < mid && r.bottom > 0 && !current) current = el
-            if (r.top < innerHeight * 0.88 && r.bottom > 0) {
+            if (r.top < innerHeight * 0.9 && r.bottom > 0) {
                 const speed = (moodOf(el) === "after") ? 8 : 26
                 typeOne(el, speed)
             }
+            if (r.bottom > 0 && r.top < innerHeight) {
+                const mid = (r.top + r.bottom) / 2
+                const d = Math.abs(mid - innerHeight * 0.5)
+                if (d < bestDist) { bestDist = d; best = el }
+            }
         })
 
-        if (!current) return
-        const m = moodOf(current)
+        if (!best) return
+        const m = moodOf(best)
 
         if (m === "dark") {
             document.body.classList.add("mood-dark")
             document.body.classList.remove("mood-award")
         } else if (m === "award") {
-            if (document.body.classList.contains("mood-dark")) {
-                document.body.classList.remove("mood-dark")
+            document.body.classList.remove("mood-dark")
+            if (!document.body.classList.contains("mood-award")) {
                 document.body.classList.add("mood-award")
                 flash.classList.remove("on")
                 void flash.offsetWidth
                 flash.classList.add("on")
             }
-        } else if (m === "after") {
-            document.body.classList.remove("mood-dark")
         } else {
             document.body.classList.remove("mood-dark")
+            document.body.classList.remove("mood-award")
         }
     }
 
