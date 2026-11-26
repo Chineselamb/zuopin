@@ -278,7 +278,9 @@ function go(id) {
         }
     })
 
-    window.scrollTo({ top: 0, behavior: "auto" })
+    document.documentElement.style.scrollBehavior = "auto"
+    window.scrollTo(0, 0)
+    document.documentElement.style.scrollBehavior = ""
     updateBar()
     document.dispatchEvent(new Event("scenechange"))
 }
