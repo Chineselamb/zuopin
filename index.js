@@ -127,31 +127,64 @@ const huida = document.getElementById("huida")
     const stack = document.getElementById("stack")
     if (!stack) return
     const cards = [].slice.call(stack.querySelectorAll(".gcard"))
-    const base = [
+
+    // 收起时（默认叠放）
+    const CLOSED = [
         "translate3d(0,0,60px)",
         "translate3d(-72px,20px,0) rotate(-7deg)",
         "translate3d(72px,34px,-80px) rotate(7deg)"
     ]
 
-    stack.addEventListener("mousemove", function (e) {
+    // 展开时（三张散开）
+    const OPEN = [
+        "translate3d(0,-16px,110px) rotate(0deg)",
+        "translate3d(-118px,8px,10px) rotate(-11deg)",
+        "translate3d(118px,22px,-20px) rotate(11deg)"
+    ]
+
+    let opened = false
+
+    function setBase(base) {
+        cards.forEach(function (c) {
+            const d = Number(c.dataset.depth)
+            c.style.transition = "transform .55s cubic-bezier(.2,.75,.2,1)"
+            c.style.transform = base[d]
+            c.style.opacity = opened ? (d === 0 ? 1 : .9) : ""
+        })
+    }
+
+    function tilt(e) {
         const r = stack.getBoundingClientRect()
         const px = (e.clientX - r.left) / r.width - .5
         const py = (e.clientY - r.top) / r.height - .5
+        const base = opened ? OPEN : CLOSED
         cards.forEach(function (c) {
             const d = Number(c.dataset.depth)
             const k = 1 - d * .28
-            c.style.transition = "transform .1s linear"
+            c.style.transition = "transform .12s linear"
             c.style.transform = base[d] +
-                " rotateY(" + (px * 16 * k) + "deg) rotateX(" + (-py * 16 * k) + "deg)"
+                " rotateY(" + (px * 14 * k) + "deg) rotateX(" + (-py * 14 * k) + "deg)"
         })
+    }
+
+    stack.addEventListener("mouseenter", function () {
+        opened = true
+        setBase(OPEN)
     })
 
+    stack.addEventListener("mousemove", tilt)
+
     stack.addEventListener("mouseleave", function () {
-        cards.forEach(function (c) {
-            c.style.transition = "transform .6s cubic-bezier(.2,.75,.2,1)"
-            c.style.transform = base[Number(c.dataset.depth)]
-        })
+        opened = false
+        setBase(CLOSED)
+        cards.forEach(function (c) { c.style.opacity = "" })
     })
+
+    // 触屏：点一下展开，再点收起
+    stack.addEventListener("touchstart", function () {
+        opened = !opened
+        setBase(opened ? OPEN : CLOSED)
+    }, { passive: true })
 })()
 
 /* ---------- ④ 文字解码 ---------- */
