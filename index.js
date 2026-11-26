@@ -795,6 +795,77 @@ document.addEventListener("scenechange", function () {
     addEventListener("resize", function () { if (!started) return; size() })
 })()
 
+/* ---------- ⑯ 故事的镜头：逐段点亮 + 色调随情节 ---------- */
+
+;(function storyshot() {
+    const box = document.getElementById("storycine")
+    if (!box) return
+
+    const items = [].slice.call(box.querySelectorAll("p, blockquote"))
+    const meshEl = document.querySelector(".mesh")
+    const starEl = document.getElementById("xingxing")
+    const flash = document.querySelector(".award-flash")
+    let awarded = false
+    let lastMood = ""
+
+    function setTone(tone) {
+        if (tone === lastMood) return
+        lastMood = tone
+        if (!meshEl) return
+        if (tone === "dark") {
+            meshEl.style.filter = "grayscale(.85) brightness(.58) blur(30px)"
+            if (starEl) starEl.style.opacity = ".1"
+        } else if (tone === "vivid") {
+            meshEl.style.filter = "blur(30px) saturate(155%) brightness(1.14)"
+            if (starEl) starEl.style.opacity = ".65"
+        } else {
+            meshEl.style.filter = ""
+            if (starEl) starEl.style.opacity = ""
+        }
+    }
+
+    function moodOf(el) {
+        const t = el.textContent
+        if (t.indexOf("第一个比赛") >= 0) return "dark"
+        if (t.indexOf("接下来两个更难") >= 0) return "dark"
+        if (t.indexOf("能不能学会") >= 0) return "dark"
+        if (t.indexOf("后来我每天学到深夜") >= 0) return "award"
+        return "calm"
+    }
+
+    function update() {
+        if (!document.getElementById("p3").classList.contains("active")) return
+
+        let reading = null
+        items.forEach(function (el) {
+            const r = el.getBoundingClientRect()
+            if (r.top < innerHeight * 0.86) {
+                el.classList.add("lit")
+                reading = el
+            }
+        })
+
+        if (!reading) { setTone("calm"); return }
+
+        const m = moodOf(reading)
+        if (m === "dark") {
+            setTone("dark")
+        } else if (m === "award") {
+            setTone("vivid")
+            if (!awarded) {
+                awarded = true
+                if (flash) { flash.classList.remove("on"); void flash.offsetWidth; flash.classList.add("on") }
+            }
+        } else {
+            setTone("calm")
+        }
+    }
+
+    addEventListener("scroll", update, { passive: true })
+    document.addEventListener("scenechange", function () { setTimeout(update, 120) })
+    setTimeout(update, 600)
+})()
+
 /* ---------- 启动 ---------- */
 
 xuanranLunbo()

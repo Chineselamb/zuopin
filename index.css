@@ -1785,3 +1785,19 @@ body.mood-award .mesh {
     vertical-align: -2px;
     animation: blink 1s steps(1) infinite;
 }
+
+/* ===== 故事的逐段点亮 ===== */
+.story p, .story blockquote {
+    opacity: .16;
+    filter: blur(1.2px);
+    transition: opacity .7s ease, filter .7s ease, transform .7s cubic-bezier(.2,.75,.2,1);
+    transform: translateY(6px);
+}
+
+.story p.lit, .story blockquote.lit {
+    opacity: 1;
+    filter: none;
+    transform: none;
+}
+
+.story blockquote { opacity: .12; }
