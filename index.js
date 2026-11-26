@@ -530,6 +530,88 @@ document.addEventListener("scenechange", function () {
     })
 })
 
+/* ---------- ⑬ 动效增强：指示条 / 倾斜 / 视差 / 交错入场 ---------- */
+
+;(function dongxiao() {
+    /* 1. 导航指示条 */
+    const nav = document.querySelector(".nav")
+    const tabs = [].slice.call(document.querySelectorAll(".tab"))
+    let ind = null
+
+    if (nav && tabs.length) {
+        ind = document.createElement("span")
+        ind.className = "tab-ind"
+        nav.appendChild(ind)
+
+        function moveInd() {
+            const act = document.querySelector(".tab.active")
+            if (!act) return
+            const r = act.getBoundingClientRect()
+            const pr = nav.getBoundingClientRect()
+            ind.style.width = r.width + "px"
+            ind.style.transform = "translateX(" + (r.left - pr.left) + "px)"
+        }
+
+        moveInd()
+        addEventListener("resize", moveInd)
+        tabs.forEach(function (t) { t.addEventListener("click", function () { setTimeout(moveInd, 30) }) })
+        document.addEventListener("scenechange", function () { setTimeout(moveInd, 30) })
+    }
+
+    /* 2. 卡片 3D 倾斜 */
+    function bindTilt() {
+        document.querySelectorAll(".work, .pit, .codewin, .console").forEach(function (el) {
+            if (el.dataset.tilt) return
+            el.dataset.tilt = "1"
+            el.classList.add("tiltcard")
+            el.addEventListener("mousemove", function (e) {
+                const r = el.getBoundingClientRect()
+                const px = (e.clientX - r.left) / r.width - .5
+                const py = (e.clientY - r.top) / r.height - .5
+                el.style.transform = "perspective(900px) rotateY(" + (px * 4) + "deg) rotateX(" + (-py * 4) + "deg) translateY(-2px)"
+            })
+            el.addEventListener("mouseleave", function () { el.style.transform = "" })
+        })
+    }
+
+    /* 3. 视差 */
+    const px = [].slice.call(document.querySelectorAll(".hero-stack, .hero-copy, .codewin, .band"))
+    px.forEach(function (el) { el.classList.add("parallax") })
+
+    function parallax() {
+        const h = innerHeight
+        px.forEach(function (el) {
+            const r = el.getBoundingClientRect()
+            if (r.bottom < -200 || r.top > h + 200) return
+            const center = r.top + r.height / 2 - h / 2
+            el.style.transform = "translateY(" + (center * -0.045) + "px)"
+        })
+    }
+
+    /* 4. 交错入场：同组元素依次出现 */
+    function stagger(root) {
+        root.querySelectorAll(".sec, .hero, .band, .pits, .versions, .plan, .doubt-list, .cols").forEach(function (group) {
+            const kids = group.querySelectorAll(":scope > .reveal")
+            kids.forEach(function (el, i) {
+                el.style.transitionDelay = Math.min(i * 70, 280) + "ms"
+            })
+        })
+    }
+
+    addEventListener("scroll", parallax, { passive: true })
+    addEventListener("resize", parallax)
+
+    bindTilt()
+    stagger(document)
+    parallax()
+
+    document.addEventListener("scenechange", function () {
+        bindTilt()
+        stagger(document)
+        parallax()
+    })
+})()
+
 /* ---------- 启动 ---------- */
 
 xuanranLunbo()
