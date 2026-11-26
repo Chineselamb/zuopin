@@ -892,7 +892,9 @@ document.addEventListener("scenechange", function () {
                 flash.classList.remove("on")
                 void flash.offsetWidth
                 flash.classList.add("on")
+                el.classList.add("award-pop")
             }
+            if (el.tagName === "BLOCKQUOTE") el.classList.add("lit-q")
             await typeOne(el)
             await wait(260)
         }

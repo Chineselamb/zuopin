@@ -1786,3 +1786,42 @@ body.mood-award .mesh {
     animation: blink 1s steps(1) infinite;
 }
 
+
+/* ===== 拿奖那一刻的爆发 ===== */
+.story p { position: relative; }
+
+.story p.award-pop {
+    color: #fff;
+    text-shadow: 0 0 22px rgba(255, 214, 150, .55), 0 0 60px rgba(159, 196, 255, .3);
+    animation: awardPop 1.3s cubic-bezier(.2, .8, .2, 1);
+}
+
+@keyframes awardPop {
+    0% { transform: scale(.97); opacity: .5; }
+    55% { transform: scale(1.015); }
+    100% { transform: none; opacity: 1; }
+}
+
+.story p.award-pop::before {
+    content: "";
+    position: absolute;
+    left: -8%;
+    right: -8%;
+    top: -60%;
+    bottom: -40%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 214, 150, .38), rgba(255, 214, 150, .1) 40%, transparent 68%);
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+    animation: awardBurst 2.6s ease-out;
+}
+
+@keyframes awardBurst {
+    0% { opacity: 0; transform: scale(.6); }
+    18% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.5); }
+}
+
+.story blockquote.lit-q {
+    text-shadow: 0 0 30px rgba(159, 196, 255, .5);
+}
