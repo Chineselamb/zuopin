@@ -884,7 +884,8 @@ document.addEventListener("scenechange", function () {
 
         for (let k = 0; k < items.length; k++) {
             const el = items[k]
-            if (!auto) return
+            items.forEach(function (x) { x.dataset.typingFlag = "0" })
+            el.dataset.typingFlag = "1"
             el.scrollIntoView({ block: "center", behavior: "smooth" })
             const m = moodOf(el.dataset.full)
             tone(m === "dark" ? "dark" : (m === "award" ? "vivid" : "calm"))
@@ -907,15 +908,12 @@ document.addEventListener("scenechange", function () {
         if (r.top < innerHeight * 0.75) run()
     }
 
-    // 用户一旦自己滚，立刻交还控制权，并把剩下的文字直接写满
-    function handOver() {
-        auto = false
-        fillRest()
-        tone("calm")
-    }
-
-    addEventListener("wheel", handOver, { passive: true, once: true })
-    addEventListener("touchmove", handOver, { passive: true, once: true })
+    // 镜头锁定：用户自己滚也不接管，每写完一段就把它重新拉回屏幕中间
+    addEventListener("wheel", function () {
+        if (!started || !auto) return
+        const el = items.find(function (x) { return x.dataset.typingFlag === "1" })
+        if (el) el.scrollIntoView({ block: "center", behavior: "smooth" })
+    }, { passive: true })
     addEventListener("scroll", maybeStart, { passive: true })
     document.addEventListener("scenechange", function () { setTimeout(maybeStart, 320) })
 })()
