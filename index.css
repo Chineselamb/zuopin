@@ -1074,3 +1074,138 @@ h2 em {
     .reveal { opacity: 1; transform: none; transition: none; }
     .cursor-glow, .cursor-dot { display: none; }
 }
+
+/* ===== 滚动生长的时间线 ===== */
+.journey {
+    position: relative;
+    padding-left: 46px;
+    margin-top: 30px;
+}
+
+.jline {
+    position: absolute;
+    left: 13px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: rgba(255, 255, 255, .08);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.jfill {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, #9fc4ff, #c9aaff 60%, #4ade80);
+    box-shadow: 0 0 14px rgba(159, 196, 255, .8);
+    border-radius: 99px;
+    transition: height .12s linear;
+}
+
+.jitem {
+    position: relative;
+    padding: 0 0 54px;
+    opacity: .28;
+    transform: translateX(10px);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2, .75, .2, 1);
+}
+
+.jitem:last-child { padding-bottom: 6px; }
+
+.jitem.on {
+    opacity: 1;
+    transform: none;
+}
+
+.jdot {
+    position: absolute;
+    left: -39px;
+    top: 7px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #0a1020;
+    border: 2px solid rgba(255, 255, 255, .22);
+    transition: border-color .5s, box-shadow .5s, background .5s;
+}
+
+.jitem.on .jdot {
+    border-color: #9fc4ff;
+    background: #9fc4ff;
+    box-shadow: 0 0 0 4px rgba(159, 196, 255, .14), 0 0 18px rgba(159, 196, 255, .9);
+}
+
+.jtime {
+    font: 500 10.5px/1 var(--mono);
+    letter-spacing: .2em;
+    color: var(--accent);
+}
+
+.jbody h3 {
+    margin: 10px 0 8px;
+    font-size: 20px;
+    letter-spacing: -.03em;
+}
+
+.jbody p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.9;
+    max-width: 60ch;
+}
+
+/* 故事动画入口 */
+.story-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 22px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: linear-gradient(120deg, rgba(110, 168, 255, .1), rgba(185, 139, 255, .06));
+    text-decoration: none;
+    color: inherit;
+    transition: transform .18s, border-color .2s, background .2s;
+}
+
+.story-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(159, 196, 255, .45);
+    background: linear-gradient(120deg, rgba(110, 168, 255, .16), rgba(185, 139, 255, .1));
+}
+
+.story-play {
+    flex: 0 0 auto;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    color: #05121f;
+    background: linear-gradient(120deg, #9fc4ff, #c9aaff);
+    box-shadow: 0 8px 24px rgba(110, 168, 255, .35);
+}
+
+.story-txt { flex: 1; min-width: 0; }
+
+.story-txt b {
+    display: block;
+    font-size: 16px;
+    letter-spacing: -.01em;
+    margin-bottom: 3px;
+}
+
+.story-txt em {
+    font-style: normal;
+    font-size: 13px;
+    color: var(--dim);
+}
+
+.story-go {
+    flex: 0 0 auto;
+    font: 600 11px/1 var(--mono);
+    letter-spacing: .18em;
+    color: var(--accent);
+}

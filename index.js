@@ -216,6 +216,7 @@ function go(id) {
 
     window.scrollTo({ top: 0, behavior: "auto" })
     updateBar()
+    document.dispatchEvent(new Event("scenechange"))
 }
 
 tabs.forEach(function (t) {
@@ -339,6 +340,37 @@ function huidawenti(w) {
 
     huida.textContent = "没听懂。可以问：周一有什么课 / 一共几门课 / 体育课在哪上。"
 }
+
+/* ---------- ⑨ 滚动生长的时间线 ---------- */
+
+;(function shijianxian() {
+    const box = document.getElementById("journey")
+    const fill = document.getElementById("jfill")
+    if (!box || !fill) return
+
+    const items = [].slice.call(box.querySelectorAll(".jitem"))
+
+    function calc() {
+        const r = box.getBoundingClientRect()
+        // 进度：从「盒子顶部进入视口 80%」到「盒子底部离开视口 30%」
+        const start = innerHeight * 0.82
+        const end = innerHeight * 0.3
+        const total = r.height + (start - end)
+        let p = (start - r.top) / total
+        p = Math.max(0, Math.min(1, p))
+
+        fill.style.height = (p * 100) + "%"
+
+        items.forEach(function (it) {
+            const at = Number(it.dataset.at) / 100
+            it.classList.toggle("on", p >= at)
+        })
+    }
+
+    addEventListener("scroll", calc, { passive: true })
+    addEventListener("resize", calc)
+    calc()
+})()
 
 /* ---------- 绑定 ---------- */
 
