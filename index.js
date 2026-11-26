@@ -842,12 +842,13 @@ document.addEventListener("scenechange", function () {
         if (!document.getElementById("p3").classList.contains("active")) return
 
         let reading = null
+        const center = innerHeight * 0.5
         items.forEach(function (el) {
             const r = el.getBoundingClientRect()
-            if (r.top < innerHeight * 0.86) {
-                el.classList.add("lit")
-                reading = el
-            }
+            if (r.top < innerHeight * 0.88) el.classList.add("lit")
+            // 正在读的那一段：跨越视口中线；没有就取最后一段已经过线的
+            if (r.top <= center && r.bottom >= center) reading = el
+            else if (!reading && r.top < center) reading = el
         })
 
         if (!reading) { setTone("calm"); return }
