@@ -1209,3 +1209,35 @@ h2 em {
     letter-spacing: .18em;
     color: var(--accent);
 }
+
+/* 我的故事 · 正文 */
+.story { max-width: 66ch; }
+
+.story p {
+    margin: 0 0 20px;
+    font-size: 17px;
+    line-height: 2.1;
+    color: var(--dim);
+    letter-spacing: .01em;
+}
+
+.story p:nth-child(1) {
+    color: var(--ink);
+    font-size: 19px;
+}
+
+.story blockquote {
+    margin: 34px 0 0;
+    padding-left: 24px;
+    border-left: 2px solid var(--accent);
+    font-size: clamp(24px, 3.2vw, 38px);
+    font-weight: 800;
+    letter-spacing: -.035em;
+    line-height: 1.45;
+    color: var(--ink);
+}
+
+@media (max-width: 520px) {
+    .story p { font-size: 15.5px; line-height: 2; }
+    .story blockquote { font-size: 22px; }
+}
