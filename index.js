@@ -40,6 +40,9 @@ const huida = document.getElementById("huida")
 
 /* ---------- ① 粒子背景 ---------- */
 
+var mouseX = null, mouseY = null
+addEventListener("mousemove", function (e) { mouseX = e.clientX; mouseY = e.clientY })
+
 ;(function lizi() {
     const cvs = document.getElementById("xingxing")
     const ctx = cvs.getContext("2d")
@@ -63,9 +66,18 @@ const huida = document.getElementById("huida")
 
     function draw() {
         ctx.clearRect(0, 0, cvs.width, cvs.height)
-        // 先画点
+        // 先画点（鼠标附近的点会被轻轻推开）
         for (let i = 0; i < pts.length; i++) {
             const p = pts[i]
+            if (typeof mouseX === "number") {
+                const dx = p.x - mouseX, dy = p.y - mouseY
+                const d2 = dx * dx + dy * dy
+                if (d2 < 24000 && d2 > 1) {
+                    const f = (1 - d2 / 24000) * 0.9
+                    p.x += (dx / Math.sqrt(d2)) * f
+                    p.y += (dy / Math.sqrt(d2)) * f
+                }
+            }
             p.x += p.vx
             p.y += p.vy
             if (p.x < 0 || p.x > cvs.width) p.vx *= -1
@@ -98,6 +110,8 @@ const huida = document.getElementById("huida")
     draw()
     addEventListener("resize", size)
 })()
+
+
 
 /* ---------- ② 光标：光晕 + 点 ---------- */
 
@@ -650,11 +664,53 @@ document.addEventListener("scenechange", function () {
     })
 })()
 
+/* ---------- ⑭ 开场页：HUD + 打字 ---------- */
+
+;(function kaichang() {
+    const xy = document.getElementById("hudXY")
+    const fps = document.getElementById("hudFPS")
+
+    if (xy) {
+        let mx = 0, my = 0, last = performance.now(), frames = 0, f = 60
+        addEventListener("mousemove", function (e) {
+            mx = e.clientX; my = e.clientY
+            xy.textContent = "X " + (mx >= 0 ? "+" : "") + mx + "  Y " + (my >= 0 ? "+" : "") + my
+        })
+        ;(function tick(now) {
+            frames++
+            if (now - last >= 500) {
+                f = Math.round(frames * 1000 / (now - last))
+                frames = 0
+                last = now
+                if (fps) fps.textContent = f + " FPS"
+            }
+            requestAnimationFrame(tick)
+        })(performance.now())
+    }
+
+    const el = document.getElementById("p0type")
+    if (!el) return
+    const text = "需求 → 约束 → 生成 → 验收 → 成品"
+    let i = 0
+    function type() {
+        el.textContent = text.slice(0, ++i)
+        if (i < text.length) setTimeout(type, 70)
+        else setTimeout(function () { i = 0; type() }, 3200)
+    }
+    setTimeout(type, 500)
+})()
+
 /* ---------- 启动 ---------- */
 
 xuanranLunbo()
 kaishi()
 observe(document)
+
+// 首屏兜底：不依赖观察器，直接显示
+;(function showFirst() {
+    const act = document.querySelector(".scene.active")
+    if (act) act.querySelectorAll(".reveal").forEach(function (el) { el.classList.add("on") })
+})()
 updateBar()
 
 // 首屏标题立刻解码
