@@ -63,6 +63,7 @@ const huida = document.getElementById("huida")
 
     function draw() {
         ctx.clearRect(0, 0, cvs.width, cvs.height)
+        // 先画点
         for (let i = 0; i < pts.length; i++) {
             const p = pts[i]
             p.x += p.vx
@@ -73,6 +74,22 @@ const huida = document.getElementById("huida")
             ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
             ctx.fillStyle = "rgba(170,200,255,.5)"
             ctx.fill()
+        }
+        // 再画近邻连线：距离越近越亮
+        const MAX = 128
+        for (let i = 0; i < pts.length; i++) {
+            for (let k = i + 1; k < pts.length; k++) {
+                const dx = pts[i].x - pts[k].x
+                const dy = pts[i].y - pts[k].y
+                const d = Math.sqrt(dx * dx + dy * dy)
+                if (d > MAX) continue
+                ctx.beginPath()
+                ctx.moveTo(pts[i].x, pts[i].y)
+                ctx.lineTo(pts[k].x, pts[k].y)
+                ctx.strokeStyle = "rgba(140,180,255," + ((1 - d / MAX) * 0.28) + ")"
+                ctx.lineWidth = 0.7
+                ctx.stroke()
+            }
         }
         requestAnimationFrame(draw)
     }
@@ -406,6 +423,70 @@ document.querySelectorAll(".chip").forEach(function (c) {
         fasong.click()
     })
 })
+
+/* ---------- ⑩ 代码打字机 ---------- */
+
+;(function dazima() {
+    const el = document.getElementById("typerCode")
+    if (!el) return
+
+    const src = [
+        ["c", "// 监听器只绑在容器上，只绑一次"],
+        ["", "kapianzubox.addEventListener(\"click\", function (e) {"],
+        ["", "  const hang = e.target.closest(\".hang\")"],
+        ["c", "  // 点到了表头或空白处"],
+        ["", "  if (!hang) return"],
+        ["c", "  // 把「点了哪一行」翻译成数组下标"],
+        ["", "  const c = Array.from(document.querySelectorAll(\".hang\")).indexOf(hang)"],
+        ["c", "  // 勾选框：改这一条数据"],
+        ["", "  if (e.target.closest(\"input\")) {"],
+        ["", "    dingdan[c].gou = e.target.closest(\"input\").checked"],
+        ["", "  }"],
+        ["c", "  // 取消：从数组里删掉这一条"],
+        ["", "  if (e.target.closest(\".caozuo1\")) {"],
+        ["", "    dingdan.splice(c, 1)"],
+        ["", "  }"],
+        ["c", "  // 数据变了，重画"],
+        ["", "  xuanran()"],
+        ["", "})"]
+    ]
+
+    let started = false
+
+    function start() {
+        if (started) return
+        started = true
+        let line = 0, ch = 0
+        const out = []
+
+        function step() {
+            if (line >= src.length) { el.innerHTML = colorize(out.join("\n")); return }
+            const [type, text] = src[line]
+            ch++
+            const cur = text.slice(0, ch)
+            out[line] = type === "c" ? cur : cur
+            el.innerHTML = colorize(out.join("\n")) + '<span class="caret-blink"></span>'
+            if (ch >= text.length) { line++; ch = 0; }
+            setTimeout(step, 12)
+        }
+        step()
+    }
+
+    // 简单着色：注释整行变灰，引号内变绿
+    function colorize(t) {
+        return t.split("\n").map(function (l) {
+            const esc = l.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+            if (esc.trim().indexOf("//") === 0) return '<span class="c">' + esc + "</span>"
+            return esc.replace(/("[^"]*")/g, '<span class="s">$1</span>')
+        }).join("\n")
+    }
+
+    const ob2 = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { start(); ob2.disconnect() } })
+    }, { threshold: .25 })
+
+    ob2.observe(el)
+})()
 
 /* ---------- 启动 ---------- */
 

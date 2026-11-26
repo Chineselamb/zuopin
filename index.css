@@ -1241,3 +1241,86 @@ h2 em {
     .story p { font-size: 15.5px; line-height: 2; }
     .story blockquote { font-size: 22px; }
 }
+
+
+/* ===== 踩坑列表 ===== */
+.pits { border-top: 1px solid var(--line); }
+
+.pit {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line-2);
+    transition: opacity .5s ease;
+}
+
+.pit-n {
+    font: 700 11px/1 var(--mono);
+    letter-spacing: .16em;
+    color: var(--faint);
+    padding-top: 5px;
+}
+
+.pit h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+    letter-spacing: -.01em;
+}
+
+.pit p { margin: 0; font-size: 13.5px; color: var(--dim); line-height: 1.85; }
+
+/* ===== 代码窗口 ===== */
+.codewin {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #04070d;
+    max-width: 880px;
+}
+
+.codewin-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line-2);
+    font: 500 10.5px/1 var(--mono);
+    letter-spacing: .14em;
+    color: var(--faint);
+}
+
+.codewin-bar .dots { display: flex; gap: 5px; }
+.codewin-bar .dots i {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: rgba(255,255,255,.14);
+}
+.codewin-lang { margin-left: auto; color: var(--accent); }
+
+.typer {
+    margin: 0;
+    padding: 18px 20px;
+    min-height: 250px;
+    font: 12.8px/1.85 var(--mono);
+    color: #c8d3e6;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.typer .k { color: #c792ea; }   /* 关键字 */
+.typer .s { color: #a5e075; }   /* 字符串 */
+.typer .c { color: #5a6784; }   /* 注释 */
+.typer .f { color: #82aaff; }   /* 函数 */
+.caret-blink {
+    display: inline-block;
+    width: 7px;
+    height: 15px;
+    background: var(--accent);
+    vertical-align: -2px;
+    animation: blink 1s steps(1) infinite;
+}
+
+@media (max-width: 520px) {
+    .pit { grid-template-columns: 1fr; gap: 6px; }
+    .typer { font-size: 11.5px; padding: 14px; }
+}

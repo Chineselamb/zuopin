@@ -1,0 +1,196 @@
+/* 商品列表 · 自己写
+
+   要求见 任务要求.md
+   卡住的地方写注释，不要留空。
+
+   建议顺序：
+   1. 重置 + body 背景
+   2. .yemian 定宽度、居中、留左右边距
+   3. 顶部标题栏
+   4. 统计条
+   5. 商品区 + 卡片
+   6. 最后写 @media
+*/
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   font-family: "Microsoft YaHei", sans-serif;
+   background-color: #f5f6f8;
+   color: #222;
+}
+
+.zongbox {
+   max-width: 1000px;
+   margin: 0 auto;
+   padding: 20px 16px 0 16px;
+}
+
+.top {
+   display: flex;
+   justify-content: space-between;
+}
+
+.benzho {
+   font-size: 22px;
+   font-weight: 700;
+}
+
+.chakan {
+   font-size: 13px;
+   color: #8a8989;
+}
+
+.shujubox {
+   display: flex;
+   background-color: #fff;
+   margin-top: 20px;
+   border-radius: 10px;
+   justify-content: center;
+   align-items: center;
+   flex-wrap: wrap;
+   padding: 20px 0 20px 0;
+}
+
+.shuju {
+
+   width: calc(100%/2);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   border-right: 1px solid #f2f4f6;
+   margin: 0 auto;
+   height: 40px;
+}
+
+.tongji {
+   font-size: 22px;
+   color: #1073f7;
+   font-weight: 700;
+}
+
+.xingxi {
+   font-size: 12px;
+   color: #a9a9a9;
+
+}
+
+.shujuxiaobox {
+   display: flex;
+   width: calc(100%/2);
+}
+
+.shujuxiaobox2 {
+   display: flex;
+   width: calc(100%/2);
+}
+
+.kapianbox {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 24px;
+   margin-top: 20px;
+}
+
+.kapian {
+   width: calc((100% - 48px)/3);
+   background-color: #fff;
+   border-radius: 10px;
+   overflow: hidden;
+   /* 这个忘记了 */
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+   transition: transform 0.2s, box-shadow 0.2s;
+
+}
+
+.kapian:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.kapianimg {
+   width: 100%;
+   object-fit: cover;
+   display: block;
+   height: 140px;
+}
+
+.gomaibox {
+   padding: 24px 12px;
+}
+
+.gomai {
+   display: flex;
+   padding-top: 10px;
+   justify-content: space-between;
+}
+
+.shangpinmingcheng {
+   font-size: 17px;
+   font-weight: 700;
+}
+
+.jieshao {
+   font-size: 14px;
+   padding-top: 4px;
+   color: #8a8989;
+}
+
+.jiage {
+   color: #ff5252;
+   font-size: 17px;
+   font-weight: 700;
+}
+
+.gowuche {
+   background-color: #2a6ff8;
+   padding: 5px 15px;
+   font-size: 13px;
+   color: #fff;
+   border-radius: 10px;
+   transition: background-color 0.2s;
+   cursor: pointer;
+   /* 这个忘了 */
+}
+
+.gowuche:hover {
+   background-color: #1c55cc;
+}
+.shujuxiaobox2 .shuju:last-child{
+   border-right: 0px;
+}
+@media(max-width:900px) {
+
+   .kapian{
+      width: calc((100% - 24px) /2);
+   }
+}
+
+@media(max-width:600px) {
+   .shujuxiaobox {
+      width: 100%;
+   }
+
+   .shujuxiaobox .shuju {
+      border-right: 0px;
+   }
+
+   .shujuxiaobox2 .shuju {
+      border-right: 0px;
+   }
+
+   .shujuxiaobox2 {
+      width: 100%;
+   }
+
+   .shujuxiaobox2 {
+      margin-top: 10px;
+   }
+
+   .kapian {
+      width: 100%;
+   }
+}

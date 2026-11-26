@@ -148,6 +148,50 @@
         </section>
 
         <section class="sec">
+            <p class="eyebrow reveal">PITFALLS</p>
+            <h2 class="reveal">我踩过的五个坑</h2>
+            <p class="lead reveal">每一条都真发生过，每一条都改了不止一遍。</p>
+
+            <div class="pits">
+                <div class="pit reveal">
+                    <span class="pit-n">01</span>
+                    <div>
+                        <h3>删了元素，没删数据</h3>
+                        <p>页面刷新之后，删掉的行又回来了。后来明白：页面只是影子，改数据才算数。</p>
+                    </div>
+                </div>
+                <div class="pit reveal">
+                    <span class="pit-n">02</span>
+                    <div>
+                        <h3>监听器写在了渲染函数里</h3>
+                        <p>每渲染一次多一个监听器，控制台越点报错越多。改成绑在不变的父元素上，只绑一次。</p>
+                    </div>
+                </div>
+                <div class="pit reveal">
+                    <span class="pit-n">03</span>
+                    <div>
+                        <h3>1fr 不是「可以随便小」</h3>
+                        <p>它能缩到的最小值，是里面内容的最小宽度。六列挤在手机宽度里，字全被压扁。</p>
+                    </div>
+                </div>
+                <div class="pit reveal">
+                    <span class="pit-n">04</span>
+                    <div>
+                        <h3>计时器变量声明在了函数里</h3>
+                        <p>每次点击都是全新的一对变量，上一轮那两条计时器根本没被清掉——提示条提前消失。</p>
+                    </div>
+                </div>
+                <div class="pit reveal">
+                    <span class="pit-n">05</span>
+                    <div>
+                        <h3>写完不看就跑</h3>
+                        <p>购物车合计显示「￥8」，实际应该是「￥1984」。数字自己会喊，只是我没抬头看。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sec">
             <p class="eyebrow reveal">CASE / 我抓到它一个错</p>
             <h2 class="reveal">页面看着没事，控制台在喊</h2>
             <div class="case reveal">
@@ -227,8 +271,44 @@ kapianzubox.addEventListener("click", ...)</pre>
                         <div class="xk-body"></div>
                     </div>
                 </article>
+                <article class="work reveal">
+                    <div class="work-head"><span>04 / 页面</span><i>LIVE</i></div>
+                    <h3>购物车</h3>
+                    <p>数量加减、小计合计、全选联动。窄屏自动重排成卡片。</p>
+                    <a class="btn main" href="work/gouwuche/index.html" target="_blank" rel="noreferrer">打开 ↗</a>
+                </article>
+
+                <article class="work reveal">
+                    <div class="work-head"><span>05 / 页面</span><i>LIVE</i></div>
+                    <h3>待付款订单</h3>
+                    <p>整页由数组渲染：全选、算账、取消一行，数据改完再重画。</p>
+                    <a class="btn main" href="work/dingdan/index.html" target="_blank" rel="noreferrer">打开 ↗</a>
+                </article>
+
+                <article class="work reveal">
+                    <div class="work-head"><span>06 / 页面</span><i>LIVE</i></div>
+                    <h3>商品列表</h3>
+                    <p>网格布局的商品墙，窗口变窄自动换列。</p>
+                    <a class="btn main" href="work/shangpin/index.html" target="_blank" rel="noreferrer">打开 ↗</a>
+                </article>
+
             </div>
             <p class="rail-hint">← 横向滚动查看更多 →</p>
+        </section>
+
+        <section class="sec">
+            <p class="eyebrow reveal">CODE</p>
+            <h2 class="reveal">这段代码，我改了三次</h2>
+            <p class="lead reveal">事件委托的最终版。滚到这儿，它会自己打出来。</p>
+
+            <div class="codewin reveal">
+                <div class="codewin-bar">
+                    <span class="dots"><i></i><i></i><i></i></span>
+                    <span>kecheng / index.js</span>
+                    <span class="codewin-lang">JavaScript</span>
+                </div>
+                <pre class="typer"><code id="typerCode"></code></pre>
+            </div>
         </section>
 
         <section class="sec">
