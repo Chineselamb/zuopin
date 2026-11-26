@@ -856,7 +856,12 @@ document.addEventListener("scenechange", function () {
         if (el.dataset.done === "1" || el.dataset.typing === "1") return
         el.dataset.typing = "1"
         const full = el.dataset.full
-        const slow = moodOf(full) === "dark" ? 62 : 34
+        // 没拿奖那几段最慢；拿奖之后如释重负，飞快
+        const idx = items.indexOf(el)
+        const awardIdx = items.findIndex(function (x) { return moodOf(x.dataset.full || "") === "award" })
+        let speed = 34
+        if (moodOf(full) === "dark") speed = 62
+        else if (awardIdx >= 0 && idx >= awardIdx) speed = 11
         let i = 0
         const t = setInterval(function () {
             i++
@@ -867,7 +872,7 @@ document.addEventListener("scenechange", function () {
                 el.dataset.done = "1"
                 el.dataset.typing = "0"
             }
-        }, slow)
+        }, speed)
     }
 
     function update() {
