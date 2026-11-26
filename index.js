@@ -804,7 +804,12 @@ document.addEventListener("scenechange", function () {
     const items = [].slice.call(box.querySelectorAll("p, blockquote"))
     const meshEl = document.querySelector(".mesh")
     const starEl = document.getElementById("xingxing")
-    const flash = document.querySelector(".award-flash")
+    let flash = document.querySelector(".award-flash")
+    if (!flash) {
+        flash = document.createElement("div")
+        flash.className = "award-flash"
+        document.body.appendChild(flash)
+    }
     let awarded = false
     let lastMood = ""
 
