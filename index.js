@@ -795,6 +795,129 @@ document.addEventListener("scenechange", function () {
     addEventListener("resize", function () { if (!started) return; size() })
 })()
 
+/* ---------- ⑯ 故事：镜头跟着文字往下走 ---------- */
+
+;(function teleprompter() {
+    const box = document.getElementById("storycine")
+    if (!box) return
+
+    const items = [].slice.call(box.querySelectorAll("p, blockquote"))
+    const meshEl = document.querySelector(".mesh")
+    const starEl = document.getElementById("xingxing")
+    let flash = document.querySelector(".award-flash")
+    if (!flash) {
+        flash = document.createElement("div")
+        flash.className = "award-flash"
+        document.body.appendChild(flash)
+    }
+
+    let ready = false
+    let started = false
+    let auto = true
+    let inited = false
+
+    function moodOf(t) {
+        if (t.indexOf("第一个比赛") >= 0) return "dark"
+        if (t.indexOf("接下来两个更难") >= 0) return "dark"
+        if (t.indexOf("能不能学会") >= 0) return "dark"
+        if (t.indexOf("后来我每天学到深夜") >= 0) return "award"
+        return "calm"
+    }
+
+    let toneNow = ""
+    function tone(t) {
+        if (t === toneNow || !meshEl) return
+        toneNow = t
+        if (t === "dark") {
+            meshEl.style.filter = "grayscale(.9) brightness(.55) blur(30px)"
+            if (starEl) starEl.style.opacity = ".08"
+        } else if (t === "vivid") {
+            meshEl.style.filter = "blur(30px) saturate(160%) brightness(1.16)"
+            if (starEl) starEl.style.opacity = ".7"
+        } else {
+            meshEl.style.filter = ""
+            if (starEl) starEl.style.opacity = ""
+        }
+    }
+
+    // 等第三页真的显示出来再量高度
+    function prep() {
+        if (ready) return true
+        if (!document.getElementById("p3").classList.contains("active")) return false
+        const hs = items.map(function (el) { return el.offsetHeight })
+        if (hs.some(function (h) { return h < 8 })) return false
+        items.forEach(function (el, i) {
+            el.style.minHeight = hs[i] + "px"
+            el.dataset.full = el.textContent
+            el.textContent = ""
+        })
+        ready = true
+        return true
+    }
+
+    function fillRest() {
+        items.forEach(function (el) {
+            if (el.dataset.full) el.textContent = el.dataset.full
+        })
+    }
+
+    function wait(ms) { return new Promise(function (r) { setTimeout(r, ms) }) }
+
+    function typeOne(el) {
+        return new Promise(function (done) {
+            const full = el.dataset.full || ""
+            const m = moodOf(full)
+            const speed = m === "dark" ? 58 : (m === "award" ? 14 : 32)
+            let i = 0
+            const t = setInterval(function () {
+                i++
+                el.textContent = full.slice(0, i)
+                if (i >= full.length) { clearInterval(t); done() }
+            }, speed)
+        })
+    }
+
+    async function run() {
+        if (started) return
+        if (!prep()) return
+        started = true
+
+        for (let k = 0; k < items.length; k++) {
+            const el = items[k]
+            if (!auto) return
+            el.scrollIntoView({ block: "center", behavior: "smooth" })
+            const m = moodOf(el.dataset.full)
+            tone(m === "dark" ? "dark" : (m === "award" ? "vivid" : "calm"))
+            if (m === "award") {
+                flash.classList.remove("on")
+                void flash.offsetWidth
+                flash.classList.add("on")
+            }
+            await typeOne(el)
+            await wait(260)
+        }
+        tone("calm")
+    }
+
+    function maybeStart() {
+        if (!document.getElementById("p3").classList.contains("active")) return
+        const r = box.getBoundingClientRect()
+        if (r.top < innerHeight * 0.75) run()
+    }
+
+    // 用户一旦自己滚，立刻交还控制权，并把剩下的文字直接写满
+    function handOver() {
+        auto = false
+        fillRest()
+        tone("calm")
+    }
+
+    addEventListener("wheel", handOver, { passive: true, once: true })
+    addEventListener("touchmove", handOver, { passive: true, once: true })
+    addEventListener("scroll", maybeStart, { passive: true })
+    document.addEventListener("scenechange", function () { setTimeout(maybeStart, 320) })
+})()
+
 /* ---------- 启动 ---------- */
 
 xuanranLunbo()
