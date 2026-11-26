@@ -839,25 +839,22 @@ document.addEventListener("scenechange", function () {
     function moodOf(el) { return el.dataset.cine }
 
     function update() {
-        // 找出离视口中线最近的那一段
-        let best = null, bestDist = 1e9
+        // 读到哪一段：最后一段已经越过视口 60% 的
+        let current = null
         items.forEach(function (el) {
             const r = el.getBoundingClientRect()
             if (r.top < innerHeight * 0.9 && r.bottom > 0) {
-                const speed = (moodOf(el) === "after") ? 8 : 26
-                typeOne(el, speed)
+                typeOne(el, (moodOf(el) === "after") ? 8 : 26)
             }
-            if (r.bottom > 0 && r.top < innerHeight) {
-                const mid = (r.top + r.bottom) / 2
-                const d = Math.abs(mid - innerHeight * 0.5)
-                if (d < bestDist) { bestDist = d; best = el }
-            }
+            if (r.top < innerHeight * 0.6) current = el
         })
 
-        window.__dbg = { n: items.length, best: best ? moodOf(best) : null, bestText: best ? best.textContent.slice(0,8) : null, ih: innerHeight, scrollY: Math.round(scrollY) }
-        if (!best) return
-        const m = moodOf(best)
+        if (!current) {
+            document.body.classList.remove("mood-dark")
+            return
+        }
 
+        const m = moodOf(current)
         if (m === "dark") {
             document.body.classList.add("mood-dark")
             document.body.classList.remove("mood-award")
