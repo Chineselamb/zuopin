@@ -789,6 +789,7 @@ document.addEventListener("scenechange", function () {
         }
     }
     addEventListener("scroll", check, { passive: true })
+    document.addEventListener("scenechange", function () { size(); setTimeout(check, 150) })
     setTimeout(check, 400)
     addEventListener("resize", function () { if (!started) return; size() })
 })()
