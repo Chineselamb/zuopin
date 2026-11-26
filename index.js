@@ -702,6 +702,97 @@ document.addEventListener("scenechange", function () {
     setTimeout(type, 500)
 })()
 
+/* ---------- ⑮ 拿奖那段的烟花 ---------- */
+
+;(function yanhua() {
+    const cvs = document.getElementById("yanhua")
+    if (!cvs) return
+
+    const ctx = cvs.getContext("2d")
+    let dots = []
+    let running = false
+    let started = false
+
+    function size() {
+        const r = cvs.parentElement.getBoundingClientRect()
+        cvs.width = Math.max(320, Math.floor(r.width + 80))
+        cvs.height = Math.max(200, Math.floor(r.height + 180))
+    }
+
+    function burst(cx, cy, n, hue) {
+        for (let i = 0; i < n; i++) {
+            const a = (Math.PI * 2 * i) / n + Math.random() * 0.25
+            const sp = 1.6 + Math.random() * 3.2
+            dots.push({
+                x: cx, y: cy,
+                vx: Math.cos(a) * sp,
+                vy: Math.sin(a) * sp,
+                life: 1,
+                hue: hue + Math.random() * 26 - 13,
+                r: 1.1 + Math.random() * 1.4
+            })
+        }
+    }
+
+    function loop() {
+        ctx.clearRect(0, 0, cvs.width, cvs.height)
+        for (let i = dots.length - 1; i >= 0; i--) {
+            const d = dots[i]
+            d.x += d.vx
+            d.y += d.vy
+            d.vy += 0.045
+            d.vx *= 0.985
+            d.vy *= 0.985
+            d.life -= 0.011
+            if (d.life <= 0) { dots.splice(i, 1); continue }
+            ctx.beginPath()
+            ctx.arc(d.x, d.y, d.r * d.life, 0, Math.PI * 2)
+            ctx.fillStyle = "hsla(" + d.hue + ", 92%, 66%, " + d.life + ")"
+            ctx.fill()
+        }
+        if (dots.length || running) requestAnimationFrame(loop)
+        else ctx.clearRect(0, 0, cvs.width, cvs.height)
+    }
+
+    function fire() {
+        if (started) return
+        started = true
+        running = true
+        size()
+
+        const seq = [
+            [0.30, 0.55, 34, 45],
+            [0.62, 0.42, 30, 205],
+            [0.48, 0.30, 40, 275]
+        ]
+
+        seq.forEach(function (s, i) {
+            setTimeout(function () {
+                burst(cvs.width * s[0], cvs.height * s[1], s[2], s[3])
+                if (!dots.length) loop()
+            }, i * 320)
+        })
+
+        setTimeout(function () { running = false }, 2400)
+        loop()
+    }
+
+    size()
+
+    // 用滚动位置判断，比观察器稳
+    function check() {
+        if (started) return
+        const r = cvs.getBoundingClientRect()
+        if (r.top < innerHeight * 0.8 && r.bottom > 0) {
+            fire()
+            removeEventListener("scroll", check)
+        }
+    }
+    addEventListener("scroll", check, { passive: true })
+    setTimeout(check, 400)
+    addEventListener("resize", function () { if (!started) return; size() })
+})()
+
 /* ---------- 启动 ---------- */
 
 xuanranLunbo()

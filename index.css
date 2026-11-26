@@ -1704,3 +1704,23 @@ h2 { text-wrap: balance; }
     .node { font-size: 12px; padding: 8px 10px; }
     .link { width: 18px; }
 }
+
+/* ===== 拿奖那段的烟花 ===== */
+.yanhua-wrap {
+    position: relative;
+    margin: 0 0 20px;
+}
+
+.yanhua-wrap p { margin-bottom: 0 !important; position: relative; z-index: 2; }
+
+#yanhua {
+    position: absolute;
+    left: -40px;
+    right: -40px;
+    top: -140px;
+    bottom: -40px;
+    width: calc(100% + 80px);
+    height: calc(100% + 180px);
+    pointer-events: none;
+    z-index: 1;
+}
