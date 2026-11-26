@@ -899,6 +899,9 @@ document.addEventListener("scenechange", function () {
             await typeOne(el)
             await wait(260)
         }
+        // 全部写完，解除镜头锁定
+        items.forEach(function (x) { x.dataset.typingFlag = "0" })
+        auto = false
         tone("calm")
     }
 
