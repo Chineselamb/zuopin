@@ -811,6 +811,9 @@ document.addEventListener("scenechange", function () {
     // 打字：进入视口时，一段一段写出来
     items.forEach(function (el) {
         const full = el.textContent
+        // 先量高度，清空后把高度占住，否则整段会塌成 0
+        const h0 = el.offsetHeight
+        el.style.minHeight = h0 + "px"
         el.textContent = ""
         el.dataset.full = full
         el.dataset.typed = "0"
