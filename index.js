@@ -795,9 +795,9 @@ document.addEventListener("scenechange", function () {
     addEventListener("resize", function () { if (!started) return; size() })
 })()
 
-/* ---------- ⑯ 故事的镜头：逐段点亮 + 色调随情节 ---------- */
+/* ---------- ⑯ 故事：慢速打出文字 + 色调随情节 ---------- */
 
-;(function storyshot() {
+;(function slowstory() {
     const box = document.getElementById("storycine")
     if (!box) return
 
@@ -810,27 +810,28 @@ document.addEventListener("scenechange", function () {
         flash.className = "award-flash"
         document.body.appendChild(flash)
     }
-    let awarded = false
-    let lastMood = ""
 
-    function setTone(tone) {
-        if (tone === lastMood) return
-        lastMood = tone
+    let inited = false
+    let tone = ""
+    let awarded = false
+
+    function setTone(next) {
+        if (next === tone) return
+        tone = next
         if (!meshEl) return
-        if (tone === "dark") {
-            meshEl.style.filter = "grayscale(.85) brightness(.58) blur(30px)"
-            if (starEl) starEl.style.opacity = ".1"
-        } else if (tone === "vivid") {
-            meshEl.style.filter = "blur(30px) saturate(155%) brightness(1.14)"
-            if (starEl) starEl.style.opacity = ".65"
+        if (next === "dark") {
+            meshEl.style.filter = "grayscale(.9) brightness(.55) blur(30px)"
+            if (starEl) starEl.style.opacity = ".08"
+        } else if (next === "vivid") {
+            meshEl.style.filter = "blur(30px) saturate(160%) brightness(1.16)"
+            if (starEl) starEl.style.opacity = ".7"
         } else {
             meshEl.style.filter = ""
             if (starEl) starEl.style.opacity = ""
         }
     }
 
-    function moodOf(el) {
-        const t = el.textContent
+    function moodOf(t) {
         if (t.indexOf("第一个比赛") >= 0) return "dark"
         if (t.indexOf("接下来两个更难") >= 0) return "dark"
         if (t.indexOf("能不能学会") >= 0) return "dark"
@@ -838,29 +839,63 @@ document.addEventListener("scenechange", function () {
         return "calm"
     }
 
+    // 等 p3 显示出来之后再量高度，否则量到 0
+    function init() {
+        if (inited) return
+        inited = true
+        items.forEach(function (el) {
+            const h = el.offsetHeight
+            if (h > 0) el.style.minHeight = h + "px"
+            el.dataset.full = el.textContent
+            el.textContent = ""
+            el.dataset.done = "0"
+        })
+    }
+
+    function type(el) {
+        if (el.dataset.done === "1" || el.dataset.typing === "1") return
+        el.dataset.typing = "1"
+        const full = el.dataset.full
+        const slow = moodOf(full) === "dark" ? 62 : 34
+        let i = 0
+        const t = setInterval(function () {
+            i++
+            el.textContent = full.slice(0, i)
+            if (i >= full.length) {
+                clearInterval(t)
+                el.textContent = full
+                el.dataset.done = "1"
+                el.dataset.typing = "0"
+            }
+        }, slow)
+    }
+
     function update() {
         if (!document.getElementById("p3").classList.contains("active")) return
+        init()
 
-        let reading = null
         const center = innerHeight * 0.5
+        let reading = null
+
         items.forEach(function (el) {
             const r = el.getBoundingClientRect()
-            if (r.top < innerHeight * 0.88) el.classList.add("lit")
-            // 正在读的那一段：跨越视口中线；没有就取最后一段已经过线的
+            if (r.top < innerHeight * 0.9) type(el)
             if (r.top <= center && r.bottom >= center) reading = el
             else if (!reading && r.top < center) reading = el
         })
 
-        if (!reading) { setTone("calm"); return }
+        if (!reading) return
+        const m = moodOf(reading.dataset.full || reading.textContent)
 
-        const m = moodOf(reading)
         if (m === "dark") {
             setTone("dark")
         } else if (m === "award") {
             setTone("vivid")
             if (!awarded) {
                 awarded = true
-                if (flash) { flash.classList.remove("on"); void flash.offsetWidth; flash.classList.add("on") }
+                flash.classList.remove("on")
+                void flash.offsetWidth
+                flash.classList.add("on")
             }
         } else {
             setTone("calm")
@@ -868,8 +903,9 @@ document.addEventListener("scenechange", function () {
     }
 
     addEventListener("scroll", update, { passive: true })
-    document.addEventListener("scenechange", function () { setTimeout(update, 120) })
-    setTimeout(update, 600)
+    document.addEventListener("scenechange", function () {
+        setTimeout(update, 260)
+    })
 })()
 
 /* ---------- 启动 ---------- */
