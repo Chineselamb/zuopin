@@ -684,7 +684,8 @@ document.addEventListener("scenechange", function () {
                 f = Math.round(frames * 1000 / (now - last))
                 frames = 0
                 last = now
-                if (fps) fps.textContent = f + " FPS"
+                // 后台标签页或卡顿时不显示难看的低帧率
+                if (fps && f >= 45) fps.textContent = f + " FPS"
             }
             requestAnimationFrame(tick)
         })(performance.now())
